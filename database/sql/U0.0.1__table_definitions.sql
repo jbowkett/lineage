@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS lineage.orders
+DROP SCHEMA IF EXISTS lineage
