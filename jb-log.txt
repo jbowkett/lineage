@@ -1,0 +1,26 @@
+docker-compose exec kafka bash
+./bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
+./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic fullfillment.lineage.orders --from-beginning
+
+
+This works!:
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' { "name": "inventory-connector", "config": { "connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname" : "postgres", "database.server.name": "fullfillment", "table.whitelist": "lineage.orders" } }  '
+
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{  "name": "lineage-connector-3",  "config": {    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",    "tasks.max": "1",    "database.hostname": "postgres",    "database.port": "5432",    "database.user": "postgres",    "database.password": "development",    "database.server.id": "184054",    "database.server.name": "dbserver1",    "database.include.list": "postgres",    "database.history.kafka.bootstrap.servers": "kafka:9092",    "database.history.kafka.topic": "schema-changes.lineage.orders",  "database.dbname":"postgres", "plugin.name":"wal2json"  }}'
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' { "name": "inventory-connector", "config": { "connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname" : "postgres", "database.server.name": "fullfillment", "table.whitelist": "lineage.orders" } }  '
+
+curl -H "Accept:application/json" localhost:8083/
+curl -H "Accept:application/json" localhost:8083/connectors/
+
+we'll want to specify the connectors within a config file within the container
+
+
+port to use postgres instead and use flyway with that
+need to install postgresql add-ons that allow debezium to be used
+
+
+
+git clone https://github.com/debezium/docker-images.git
+./build-postgres.sh 13-alpine
+
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{  "name": "lineage-connector",  "config": {    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",    "tasks.max": "1",    "database.hostname": "postgres",    "database.port": "5432",    "database.user": "postgres",    "database.password": "development",    "database.server.id": "184054",    "database.server.name": "dbserver1",    "database.include.list": "lineage",    "database.history.kafka.bootstrap.servers": "kafka:9092",    "database.history.kafka.topic": "schema-changes.lineage.orders", "slot.name":"slotname" , "plugin.name":"wal2json", "database.dbname":"postgres"  }}'
