@@ -1,0 +1,42 @@
+/*
+{
+  "name": "lineage-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.PostgreSQLConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "development",
+    "database.server.id": "184054",
+    "database.server.name": "dbserver1",
+    "database.include.list": "lineage",
+    "database.history.kafka.bootstrap.servers": "kafka:9092",
+    "database.history.kafka.topic": "schema-changes.lineage.orders"
+  }
+}
+*/
+
+
+/*
+{
+  "name": "lineage-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "development",
+    "database.server.id": "184057",
+    "database.server.name": "dbserver1",
+    "database.include.list": "lineage",
+    "database.history.kafka.bootstrap.servers": "kafka:9092",
+    "database.history.kafka.topic": "schema-changes.lineage.orders",
+    "slot.name": "slotname",
+    "plugin.name": "wal2json",
+    "": ""
+  }
+}
+*/
+
