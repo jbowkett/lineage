@@ -4,22 +4,6 @@ volumes:
   dbdata:
 
 services:
-#  database:
-#    image: library/postgres:12-alpine
-#    ports:
-#      - "5432:5432"
-#    env_file:
-#      - database/database.env
-#    volumes:
-#      - dbdata:/var/lib/postgresql/data
-
-  mysql:
-    image: debezium/example-mysql:1.5
-    ports:
-      - "3306:3306"
-    env_file:
-      - database/mysql.env
-
   postgres:
     image: debezium/postgres:13-alpine
     ports:
@@ -37,21 +21,10 @@ services:
     volumes:
       - ./database/sql:/flyway/sql
 
-#  flyway:
-#    image: flyway/flyway:7.9.1
-#    command: -url=jdbc:mysql://mysql:3306/lineage -password=mysqlpw -connectRetries=60 migrate -user=mysqluser
-#    depends_on:
-#      - mysql
-#    volumes:
-#      - ./database/sql:/flyway/sql
-
-
-
-
   debezium:
     image: debezium/connect
     depends_on:
-      - mysql
+      - postgres
       - kafka
       - zookeeper
     env_file:
