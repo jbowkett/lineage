@@ -7,7 +7,7 @@
     "database.user": "postgres",
     "database.password": "development",
     "database.dbname": "postgres",
-    "database.server.name": "lineage",
+    "database.server.name": "lineage-server",
     "table.whitelist": "lineage.orders"
   }
 }
