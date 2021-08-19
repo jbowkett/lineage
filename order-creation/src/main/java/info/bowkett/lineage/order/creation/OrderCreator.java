@@ -1,23 +1,79 @@
 package info.bowkett.lineage.order.creation;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.*;
+import lombok.extern.slf4j.Slf4j;
+
+import static info.bowkett.lineage.order.creation.Order.Direction.*;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.*;
+
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class OrderCreator {
-  private static Logger log = getLogger(OrderCreator.class);
-
   private final OrderRepository repo;
+  private final Random random = new Random();
 
   @Scheduled(fixedRate = 5000)
-  public void PersistOrder(){
-    log.debug("Going to create an order"+repo);
-    repo.save(new Order("Order created at :"+System.currentTimeMillis()));
+  public void PersistOrder() {
+    repo.save(generateOrder());
+    log.debug("Order created.");
+  }
+
+  private static enum Trade {
+    FACEBOOK("NASDAQ", "FB", 355.45),
+    APPLE("NASDAQ", "AAPL", 146.36),
+    AMAZON("NASDAQ", "AMZN", 3201.22),
+    NETFLIX("NASDAQ", "NFLX", 521.87),
+    GOOGLE("NASDAQ", "GOOGL", 2708.98),
+    TRIFORK("CPH", "TRIFOR", 181.20);
+
+    private final String exchange;
+    private final String ticker;
+    private final double mid;
+
+    Trade(String exchange, String ticker, double mid) {
+      this.exchange = exchange;
+      this.ticker = ticker;
+      this.mid = mid;
+    }
+    private String getBadge(){
+      return this.exchange+":"+this.ticker;
+    }
+  }
+
+
+  private static enum Participant {
+
+    CreditSuisse(1, "Credit Suisse"),
+    JamesBowkett(2, "James Bowkett"),
+    BernieMadoff(3, "Bernie Madoff"),
+    Citigroup(4, "Citigroup, Inc"),
+    Ltcm(5, "Long Term Capital Management"),
+    KnightCapital(6, "Knight Capital");
+
+    private final int id;
+    private final String name;
+
+    Participant(int id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+  }
+
+  protected Order generateOrder() {
+    var participants = Arrays.asList(Participant.values());
+    Collections.shuffle(participants);
+    var buyer = participants.get(0);
+    var seller = participants.get(1);
+
+    final Trade[] values = Trade.values();
+    var trade = values[random.nextInt(values.length)];
+    var direction = random.nextBoolean() ? SELL : BUY;
+
+    return new Order(trade.getBadge(), Math.abs(random.nextInt(1_000)), trade.mid, new Date(), direction, buyer.id, seller.id);
   }
 }
