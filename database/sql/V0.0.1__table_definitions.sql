@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS lineage.order(
     row_id SERIAL,
     ticker varchar,
     quantity integer,
-    direction varchar,
     price numeric,
     order_date_utc timestamp,
     buyer_id integer,

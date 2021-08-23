@@ -18,23 +18,18 @@ import java.util.Date;
 @Slf4j
 public class Order {
 
-
-  static enum Direction{BUY, SELL}
-
   private String ticker;
   private Integer quantity;
   private Double price;
   private Date orderDateUtc;
-  private Direction direction;
   private Integer buyerId;
   private Integer sellerId;
 
-  public Order(String ticker, Integer quantity, Double price, Date orderDateUtc, Direction direction, Integer buyerId, Integer sellerId) {
+  public Order(String ticker, Integer quantity, Double price, Date orderDateUtc, Integer buyerId, Integer sellerId) {
     this.ticker = ticker;
     this.quantity = quantity;
     this.price = price;
     this.orderDateUtc = orderDateUtc;
-    this.direction = direction;
     this.buyerId = buyerId;
     this.sellerId = sellerId;
   }

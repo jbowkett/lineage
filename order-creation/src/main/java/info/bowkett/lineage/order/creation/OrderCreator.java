@@ -3,8 +3,6 @@ package info.bowkett.lineage.order.creation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static info.bowkett.lineage.order.creation.Order.Direction.*;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,7 @@ public class OrderCreator {
   private final OrderRepository repo;
   private final Random random = new Random();
 
-  @Scheduled(fixedRate = 5000)
+  @Scheduled(fixedRate = 1000)
   public void PersistOrder() {
     repo.save(generateOrder());
     log.debug("Order created.");
@@ -72,8 +70,7 @@ public class OrderCreator {
 
     final Trade[] values = Trade.values();
     var trade = values[random.nextInt(values.length)];
-    var direction = random.nextBoolean() ? SELL : BUY;
 
-    return new Order(trade.getBadge(), Math.abs(random.nextInt(1_000)), trade.mid, new Date(), direction, buyer.id, seller.id);
+    return new Order(trade.getBadge(), Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
   }
 }

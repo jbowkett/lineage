@@ -1,10 +1,22 @@
+
+table name is not working and neither is the row_id thing
+
+
+Next step:
+https://spring.io/guides/gs/accessing-data-jpa/
+
+Then get some meaningful orders into the DB
+
+
 docker-compose exec kafka bash
 ./bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
 ./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic lineage-server.lineage.orders --from-beginning
+./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic lineage-server.lineage.order --from-beginning
 
 
 This works!:
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.orders"}}  '
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
 
 
 curl -H "Accept:application/json" localhost:8083/
