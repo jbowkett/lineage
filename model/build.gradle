@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+
+group 'info.bowkett.lineage'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '16'
+targetCompatibility = '16'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'com.google.code.gson:gson:2.8.8'
+//    implementation 'com.google.code.gson:gson:2.8.8'
+
+//    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+
+    testImplementation 'org.slf4j:slf4j-api:1.7.32'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.5'
+
+    implementation 'org.projectlombok:lombok:1.18.18'
+    testImplementation 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = uri("${buildDir}/publishing-repository")
+        }
+    }
+}

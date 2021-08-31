@@ -5,11 +5,13 @@ plugins {
 }
 
 group = 'info.bowkett.lineage.order.creation'
+
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '16'
 targetCompatibility = '16'
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
@@ -23,6 +25,9 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 	implementation 'javax.persistence:javax.persistence-api:2.2'
 	testImplementation 'org.mockito:mockito-core'
+	implementation 'info.bowkett.lineage:model:1.0-SNAPSHOT'
+//	implementation 'com.vladmihalcea:hibernate-types-52:2.12.1'
+	implementation 'com.google.code.gson:gson:2.8.8'
 }
 
 test {

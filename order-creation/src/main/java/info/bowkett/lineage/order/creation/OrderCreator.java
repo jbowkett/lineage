@@ -1,10 +1,13 @@
 package info.bowkett.lineage.order.creation;
 
+import info.bowkett.lineage.model.RecordDescriptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import info.bowkett.lineage.model.RecordDescriptor;
 
 import java.util.*;
 
@@ -71,6 +74,8 @@ public class OrderCreator {
     final Trade[] values = Trade.values();
     var trade = values[random.nextInt(values.length)];
 
-    return new Order(trade.getBadge(), Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
+    var record = new RecordDescriptor("order");
+
+    return new Order(trade.getBadge(), record, Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
   }
 }

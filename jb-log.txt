@@ -1,5 +1,11 @@
 
-table name is not working and neither is the row_id thing
+Next step:
+new module that runs the summary SQL
+new module to hold some kind of tree for the lineage (include a starting point of lineage)
+Add the lineage into the queries
+
+
+table name is not working but ignore it
 
 
 Next step:
