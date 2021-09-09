@@ -21,8 +21,11 @@ import static lombok.AccessLevel.NONE;
 @Slf4j
 public class Order implements Persistable {
 
-  private String ticker;
+  @Id
+  @Setter(NONE)
+  private String rowId;
 
+  private String ticker;
   @Getter(NONE)
   @Setter(NONE)
   private String lineage;
@@ -34,7 +37,7 @@ public class Order implements Persistable {
 
   private static final Gson gson = new Gson();
 
-  public Order(Long rowId, String ticker, RecordDescriptor lineage, Integer quantity, Double price, Date orderDateUtc, Integer buyerId, Integer sellerId) {
+  public Order(String ticker, RecordDescriptor lineage, Integer quantity, Double price, Date orderDateUtc, Integer buyerId, Integer sellerId) {
     this.ticker = ticker;
     setLineage(lineage);
     this.quantity = quantity;
@@ -42,11 +45,9 @@ public class Order implements Persistable {
     this.orderDateUtc = orderDateUtc;
     this.buyerId = buyerId;
     this.sellerId = sellerId;
-    this.rowId = rowId;
+    this.rowId = lineage.getRowId();
   }
 
-  @Id
-  private Long rowId;
 
   public void setLineage(RecordDescriptor lineage){
     this.lineage = gson.toJson(lineage);
@@ -57,7 +58,7 @@ public class Order implements Persistable {
   }
 
   @Override
-  public Object getId() {
+  public String getId() {
     return rowId;
   }
 

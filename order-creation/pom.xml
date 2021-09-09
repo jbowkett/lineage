@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+<!--    <parent>-->
+<!--        <groupId>com.mastercard.npp.ips</groupId>-->
+<!--        <artifactId>ips-parent-component</artifactId>-->
+<!--        <version>0.3.2-24</version>-->
+<!--    </parent>-->
+
+    <groupId>info.bowkett.lineage</groupId>
+    <artifactId>order-creation</artifactId>
+    <version>0.1-SNAPSHOT</version>
+
+    <name>Lineage - Order Creation</name>
+    <description>Order Creation</description>
+
+<!--    <scm>-->
+<!--        <url>https://ie-github.vocalink.co.uk/vocalink-paye/ips-common-component-dupcheck</url>-->
+<!--        <connection>scm:git:git@int-github.mcvl-engineering.com:vocalink-paye/ips-common-component-dupcheck.git</connection>-->
+<!--        <developerConnection>scm:git:git@int-github.mcvl-engineering.com:vocalink-paye/ips-common-component-dupcheck.git-->
+<!--        </developerConnection>-->
+<!--        <tag>${project.version}</tag>-->
+<!--    </scm>-->
+
+    <properties>
+        <ips-common-lib-core.version>0.5.0-58</ips-common-lib-core.version>
+        <ips-common-lib-message.version>0.4.1-7</ips-common-lib-message.version>
+        <ips-common-lib-test.version>0.1.1-22</ips-common-lib-test.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

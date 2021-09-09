@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS lineage;
 CREATE TABLE IF NOT EXISTS lineage.order(
-    row_id SERIAL,
+    row_id varchar primary key,
     lineage varchar,
     ticker varchar,
     quantity integer,

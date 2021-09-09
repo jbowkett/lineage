@@ -1,5 +1,6 @@
 package info.bowkett.lineage.order.creation;
 
+import info.bowkett.lineage.model.RecordDescriptor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,18 @@ public class OrderRepositoryTest {
   @Test
   void peristMultipleTest(){
     assertDoesNotThrow(() -> {
-      final Order s = new Order(123456l, "ticker", null, 1, 1.2, new Date(), 1,2);
+      final Order s = new Order("ticker", new RecordDescriptor("input_table"), 1, 1.2, new Date(), 1,2);
       final Order save = repository.save(s);
-      final Order second = new Order(890l, "ticker", null, 1, 1.2, new Date(), 1,2);
+      final Order second = new Order( "ticker", new RecordDescriptor("input_table"), 1, 1.2, new Date(), 1,2);
       repository.save(second);
     });
   }
 
   @Test
-  void peristAndRetrieveTest(){
-    final Order s = new Order(67898l, "ticker", null, 1, 1.2, new Date(), 1,2);
+  void persistAndRetrieveTest(){
+    final Order s = new Order("ticker", new RecordDescriptor("another_input_table"), 1, 1.2, new Date(), 1,2);
     final Order saved = repository.save(s);
-    final Optional<Order> found = repository.findById(67898l);
+    final Optional<Order> found = repository.findById(s.getRowId());
     assertNotNull(found.get());
   }
 

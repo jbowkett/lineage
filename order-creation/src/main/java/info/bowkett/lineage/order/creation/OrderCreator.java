@@ -7,9 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import info.bowkett.lineage.model.RecordDescriptor;
-
-import java.util.*;
+import static java.util.Arrays.asList;
+import static java.util.Collections.shuffle;
+import java.util.Date;
+import java.util.Random;
 
 @Component
 @Slf4j
@@ -47,7 +48,7 @@ public class OrderCreator {
   }
 
 
-  private static enum Participant {
+  private enum Participant {
 
     CreditSuisse(1, "Credit Suisse"),
     JamesBowkett(2, "James Bowkett"),
@@ -66,8 +67,8 @@ public class OrderCreator {
   }
 
   protected Order generateOrder() {
-    var participants = Arrays.asList(Participant.values());
-    Collections.shuffle(participants);
+    var participants = asList(Participant.values());
+    shuffle(participants);
     var buyer = participants.get(0);
     var seller = participants.get(1);
 
@@ -76,6 +77,6 @@ public class OrderCreator {
 
     var record = new RecordDescriptor("order");
 
-    return new Order(1234l, trade.getBadge(), record, Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
+    return new Order(trade.getBadge(), record, Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
   }
 }
