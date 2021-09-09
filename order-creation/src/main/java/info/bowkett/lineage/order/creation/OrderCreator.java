@@ -76,6 +76,6 @@ public class OrderCreator {
 
     var record = new RecordDescriptor("order");
 
-    return new Order(trade.getBadge(), record, Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
+    return new Order(1234l, trade.getBadge(), record, Math.abs(random.nextInt(1_000)), trade.mid, new Date(), buyer.id, seller.id);
   }
 }

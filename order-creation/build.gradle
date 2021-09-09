@@ -28,6 +28,7 @@ dependencies {
 	implementation 'info.bowkett.lineage:model:1.0-SNAPSHOT'
 //	implementation 'com.vladmihalcea:hibernate-types-52:2.12.1'
 	implementation 'com.google.code.gson:gson:2.8.8'
+	testImplementation 'com.h2database:h2'
 }
 
 test {

@@ -6,25 +6,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.Date;
 import info.bowkett.lineage.model.RecordDescriptor;
+import org.springframework.data.domain.Persistable;
 
 import static lombok.AccessLevel.NONE;
 
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @EqualsAndHashCode(exclude = {"orderDateUtc"})
 @ToString
 @Slf4j
-public class Order {
-  static{
-    log.info("LATEST");
-  }
+public class Order implements Persistable {
 
   private String ticker;
 
@@ -39,7 +34,7 @@ public class Order {
 
   private static final Gson gson = new Gson();
 
-  public Order(String ticker, RecordDescriptor lineage, Integer quantity, Double price, Date orderDateUtc, Integer buyerId, Integer sellerId) {
+  public Order(Long rowId, String ticker, RecordDescriptor lineage, Integer quantity, Double price, Date orderDateUtc, Integer buyerId, Integer sellerId) {
     this.ticker = ticker;
     setLineage(lineage);
     this.quantity = quantity;
@@ -47,10 +42,10 @@ public class Order {
     this.orderDateUtc = orderDateUtc;
     this.buyerId = buyerId;
     this.sellerId = sellerId;
+    this.rowId = rowId;
   }
 
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long rowId;
 
   public void setLineage(RecordDescriptor lineage){
@@ -59,5 +54,15 @@ public class Order {
 
   public RecordDescriptor getLineage(){
     return gson.fromJson(lineage, RecordDescriptor.class);
+  }
+
+  @Override
+  public Object getId() {
+    return rowId;
+  }
+
+  @Override
+  public boolean isNew() {
+    return true;
   }
 }
