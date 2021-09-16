@@ -25,3 +25,13 @@ insert into lineage.participant(participant_id, lineage, participant_name, parti
 insert into lineage.participant(participant_id, lineage, participant_name, participant_type) VALUES (4, '{"rowId":4,"tableName":"lineage.participant","parents":[]}', 'Citigroup, Inc.', 'brokerage');
 insert into lineage.participant(participant_id, lineage, participant_name, participant_type) VALUES (5, '{"rowId":5,"tableName":"lineage.participant","parents":[]}', 'Long Term Capital Management', 'fund');
 insert into lineage.participant(participant_id, lineage, participant_name, participant_type) VALUES (6, '{"rowId":6,"tableName":"lineage.participant","parents":[]}', 'Knight Capital', 'fund');
+
+CREATE TABLE IF NOT EXISTS lineage.participant_summary(
+    row_id varchar primary key,
+    lineage varchar,
+    participant_id integer,
+    buy_count integer,
+    buy_total decimal,
+    sell_count integer,
+    sell_total decimal
+)
