@@ -1,5 +1,6 @@
 package info.bowkett.lineage.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -7,6 +8,7 @@ import java.util.UUID;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 public class RecordDescriptor {
   private final String rowId;
   private final String tableName;
