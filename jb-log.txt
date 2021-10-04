@@ -1,9 +1,51 @@
 
+/* all parents of an order*/
+match(order:RecordDescriptor {RowId : "Dave"})-[*1..4]-(parents) return order, parents
+
+/* immediate parents of an order */
+MATCH (child {RowId: "Dave"})<-[:PARENT_OF]-(parents) RETURN parents, child
+
+/* all children of a node */
+match(pare:RecordDescriptor{RowId:"DaveTable2" })-[*1..1]-(children) return pare, children
+
+/* immediate children of a node */
+MATCH (child {RowId: "DaveTable2"})-[:PARENT_OF]-(children) RETURN children, child
+
+
+
+
+Diagram of what we're doing from a business perspective
+Design goals (application knows about lineage, but doesn't care how it's stored or the catalogue is updated)
+Separation of lineage storage from the main application storage (could just use pointers to the record_ids)
+
+Structure of a lineage record
+
+Turn on debezium
+what the main program is doing
+what the summarisation is doing
+The SQL of summarisation (including the other aggregation function)
+run the summarisation
+
+Show the debezium output that it has been listened in to the records being inserted
+
+Run up something to connect to the debezium topics and insert them into a graph DB
+
+
+Recursion in SQL:
+https://medium.com/swlh/recursion-in-sql-explained-graphically-679f6a0f143b
+https://modern-sql.com/caniuse/with_recursive_(top_level)
+Recursion in Mongo:
+https://stackoverflow.com/questions/42787293/mongodb-recursive-query
+https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
+
+
+
+
 Next step:
 new module that runs the summary SQL
+
 new module to hold some kind of tree for the lineage (include a starting point of lineage)
 Add the lineage into the queries
-
 
 table name is not working but ignore it
 
@@ -22,7 +64,7 @@ docker-compose exec kafka bash
 
 This works!:
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.orders"}}  '
-curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "transforms": "unwrap", "transforms.unwrap.type":"876876876io.debezium.transforms.ExtractNewRecordState", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
 
 
 curl -H "Accept:application/json" localhost:8083/

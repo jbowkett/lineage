@@ -306,4 +306,12 @@ public class ConsumerTest {
     assertEquals(expected, result);
   }
 
+  @Test
+  void ensureItWillPersistAValidMessage(){
+    var persistence = mock(DescriptorPersistence.class);
+    final var consumer = new Consumer(persistence);
+    var result = consumer.consume(HAPPY_PATH_MSG);
+    verify(persistence.persist(result), once());
+  }
+
 }

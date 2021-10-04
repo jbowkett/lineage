@@ -48,3 +48,17 @@ services:
       - "29092:29092"
     env_file:
       - kafka/kafka.env
+#    volumes:
+#      - ./kafka/config:/kafka/config
+
+  neo:
+    image: neo4j:4.3.3-community
+    depends_on:
+      - debezium
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    env_file:
+      - neo/neo.env
+    volumes:
+      - ./neo/data:/data

@@ -13,6 +13,11 @@ import java.util.LinkedList;
 public class Consumer {
 
   public static final Gson GSON = new Gson();
+  private final DescriptorPersistence persistence;
+
+  public Consumer(DescriptorPersistence persistence) {
+    this.persistence = persistence;
+  }
 
   @KafkaListener(topics = "lineage-server.lineage.order")
   public RecordDescriptor consume(String message) {
