@@ -3,9 +3,11 @@ package info.bowkett.lineage.cdc.listener;
 import com.google.gson.Gson;
 import info.bowkett.lineage.model.RecordDescriptor;
 import org.junit.jupiter.api.Test;
+import org.mockito.verification.VerificationMode;
 
 import static info.bowkett.lineage.cdc.listener.Consumer.GSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class ConsumerTest {
 
@@ -293,14 +295,14 @@ public class ConsumerTest {
 
   @Test
   void ensureItCanParseAValidMessage(){
-    final var consumer = new Consumer();
+    final var consumer = new Consumer(mock(DescriptorPersistence.class));
     final var parsedLineage = consumer.parseLineage(HAPPY_PATH_MSG);
     assertEquals("{\"rowId\":\"0ff624a0-66e4-4018-839f-3c758521ac8a\",\"tableName\":\"order\",\"parents\":[]}", parsedLineage);
   }
 
   @Test
   void ensureItCanTranslateAValidMessage(){
-    final var consumer = new Consumer();
+    final var consumer = new Consumer(mock(DescriptorPersistence.class));
     final var expected = new RecordDescriptor("0ff624a0-66e4-4018-839f-3c758521ac8a", "order");
     var result = consumer.consume(HAPPY_PATH_MSG);
     assertEquals(expected, result);
@@ -308,10 +310,13 @@ public class ConsumerTest {
 
   @Test
   void ensureItWillPersistAValidMessage(){
-    var persistence = mock(DescriptorPersistence.class);
+    final DescriptorPersistence persistence = mock(DescriptorPersistence.class);
     final var consumer = new Consumer(persistence);
     var result = consumer.consume(HAPPY_PATH_MSG);
-    verify(persistence.persist(result), once());
+    verify(persistence, once()).persist(result);
   }
 
+  private VerificationMode once() {
+    return times(1);
+  }
 }

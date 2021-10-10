@@ -25,6 +25,7 @@ public class Consumer {
 
     final var recordDescriptor = GSON.fromJson(s, RecordDescriptor.class);
     log.info("[{}]", recordDescriptor);
+    this.persistence.persist(recordDescriptor);
     return recordDescriptor;
   }
 
