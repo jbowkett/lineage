@@ -2,3 +2,6 @@
 *.iml
 .idea
 .java-version
+debezium
+target
+/docker-images
