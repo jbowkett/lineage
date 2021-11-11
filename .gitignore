@@ -5,4 +5,5 @@
 debezium
 target
 /docker-images
-neo/data
+neo/data/
+debezium-src/
