@@ -4,38 +4,69 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <parent>-->
-<!--        <groupId>com.mastercard.npp.ips</groupId>-->
-<!--        <artifactId>ips-parent-component</artifactId>-->
-<!--        <version>0.3.2-24</version>-->
-<!--    </parent>-->
-
     <groupId>info.bowkett.lineage</groupId>
     <artifactId>order-creation</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>info.bowkett.lineage</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <name>Lineage - Order Creation</name>
     <description>Order Creation</description>
-
-<!--    <scm>-->
-<!--        <url>https://ie-github.vocalink.co.uk/vocalink-paye/ips-common-component-dupcheck</url>-->
-<!--        <connection>scm:git:git@int-github.mcvl-engineering.com:vocalink-paye/ips-common-component-dupcheck.git</connection>-->
-<!--        <developerConnection>scm:git:git@int-github.mcvl-engineering.com:vocalink-paye/ips-common-component-dupcheck.git-->
-<!--        </developerConnection>-->
-<!--        <tag>${project.version}</tag>-->
-<!--    </scm>-->
-
     <properties>
-        <ips-common-lib-core.version>0.5.0-58</ips-common-lib-core.version>
-        <ips-common-lib-message.version>0.4.1-7</ips-common-lib-message.version>
-        <ips-common-lib-test.version>0.1.1-22</ips-common-lib-test.version>
+        <spring-boot-starter-test.version>${spring-boot-starter-data-jdbc.version}</spring-boot-starter-test.version>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
+            <version>${spring-boot-starter-data-jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot-starter-test.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>${javax.persistence-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.bowkett.lineage</groupId>
+            <artifactId>model</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -44,6 +75,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
