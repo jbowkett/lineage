@@ -5,3 +5,4 @@
 debezium
 target
 /docker-images
+neo/data
