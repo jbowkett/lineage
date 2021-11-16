@@ -1,4 +1,11 @@
 
+DONE:
+The only connector that works and persists is the orders connector.
+Try just creating the summary one and manually inserting the data, see if this is picked up with the cdc-listener, which
+just listens to one topic (remove from the cdc listener)
+The name of the topic may be incorrect, try the participant listener also
+8<---------->8
+
 The relationships aren't getting persisted...maybe the parents are empty?
 
 /* delete everythign including relationships: */
@@ -74,9 +81,9 @@ docker-compose exec kafka bash
 
 
 This works!:
-curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector",              "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-summary-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant_summary"}}  '
-curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant"}}  '
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-connector",         "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant"}}  '
 
 
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "transforms": "unwrap", "transforms.unwrap.type":"io.debezium.transforms.ExtractNewRecordState", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '

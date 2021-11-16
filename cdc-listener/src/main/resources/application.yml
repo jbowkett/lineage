@@ -13,4 +13,5 @@ spring:
     authentication:
       username: neo4j
       password: secret
-
+  main:
+    allow-bean-definition-overriding: true
