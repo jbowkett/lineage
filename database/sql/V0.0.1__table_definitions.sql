@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS lineage.order(
     order_date_utc timestamp,
     buyer_id integer,
     seller_id integer
-
 );
 
 CREATE TABLE IF NOT EXISTS lineage.participant(
@@ -34,4 +33,14 @@ CREATE TABLE IF NOT EXISTS lineage.participant_summary(
     buy_total decimal,
     sell_count integer,
     sell_total decimal
-)
+);
+
+CREATE TABLE IF NOT EXISTS lineage.participant_type_summary(
+    row_id varchar primary key,
+    lineage varchar,
+    participant_type varchar,
+    avg_buy_count decimal,
+    avg_buy_total decimal,
+    avg_sell_count decimal,
+    avg_sell_total decimal
+);

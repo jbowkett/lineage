@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=lineage
+    username: postgres
+    password: development
+  jpa:
+    show-sql: true
+  sql:
+    init:
+      mode: always
+logging:
+  level:
+    info.bowkett: DEBUG

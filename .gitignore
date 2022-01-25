@@ -6,4 +6,6 @@ debezium
 target
 /docker-images
 neo/data/
+neo/__data/
+neo/data-2022-01-25/
 debezium-src/

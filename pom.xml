@@ -42,5 +42,6 @@
         <module>model</module>
         <module>order-creation</module>
         <module>participant-summary</module>
+        <module>participant-type-summary</module>
     </modules>
 </project>

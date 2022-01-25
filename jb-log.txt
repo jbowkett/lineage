@@ -1,4 +1,31 @@
 
+The creation of the connectors/listeners is flaky...can be re-run and everything works okay.
+
+Next steps:
+change persistence of lineage into mongo
+change persistence of lineage into SQL
+Queries required:
+How to trace the tainted records in a lineage tree (graph / doc store / SQL store)
+Add version information into the system...both in the source data and the lineage data
+Slides
+
+
+8<----------8<
+
+docker-compose down
+docker volume rm lineage_dbdata
+rm neo/data
+docker-compose up
+./setup-connectors.sh
+run the cdc listener component
+the listener should pick up on all the original participant inserts from the setup scripts as nodes
+check at localhost:7474 (default : neo4j/neo4j altered : neo4j/secret)
+//all nodes:
+MATCH (n) RETURN n;
+//the whole graph
+Match (n)-[r]->(m) Return n,r,m
+
+
 DONE:
 The only connector that works and persists is the orders connector.
 Try just creating the summary one and manually inserting the data, see if this is picked up with the cdc-listener, which
@@ -8,7 +35,7 @@ The name of the topic may be incorrect, try the participant listener also
 
 The relationships aren't getting persisted...maybe the parents are empty?
 
-/* delete everythign including relationships: */
+/* delete everything including relationships: */
 MATCH (n) detach delete  n;
 
 /* Get all the nodes: */
@@ -76,13 +103,14 @@ Then get some meaningful orders into the DB
 
 docker-compose exec kafka bash
 ./bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
-./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic lineage-server.lineage.orders --from-beginning
+./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic lineage-server.lineage.order --from-beginning
 ./bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic lineage-server.lineage.order --from-beginning
 
 
 This works!:
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "orders-connector",              "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.order"}}  '
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-summary-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant_summary"}}  '
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-type-summary-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant_type_summary"}}  '
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d ' {"name": "participant-connector",         "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "postgres", "database.password": "development", "database.dbname": "postgres", "database.server.name": "lineage-server", "table.whitelist": "lineage.participant"}}  '
 
 

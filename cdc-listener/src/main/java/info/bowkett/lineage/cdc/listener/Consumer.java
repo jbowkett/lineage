@@ -19,7 +19,11 @@ public class Consumer {
     this.persistence = persistence;
   }
 
-  @KafkaListener(topics = {"lineage-server.lineage.order", "lineage-server.lineage.participant", "lineage-server.lineage.participant_summary"})
+  @KafkaListener(topics = {
+      "lineage-server.lineage.order",
+      "lineage-server.lineage.participant",
+      "lineage-server.lineage.participant_summary",
+      "lineage-server.lineage.participant_type_summary"})
   public RecordDescriptor consume(String message) {
     final var s = this.parseLineage(message);
 
