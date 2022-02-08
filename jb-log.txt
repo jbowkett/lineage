@@ -6,6 +6,13 @@ change persistence of lineage into mongo
 change persistence of lineage into SQL
 Queries required:
 How to trace the tainted records in a lineage tree (graph / doc store / SQL store)
+// get the tainted record
+MATCH(tainted:RecordDescriptor{rowId:"997fece2-8dad-4b5b-91c5-b256dabc59ce"}) Return tainted
+
+MATCH(tainted:RecordDescriptor{rowId:"997fece2-8dad-4b5b-91c5-b256dabc59ce"})
+CALL apoc.path.subgraphNodes(tainted, {maxLevel:-1, relationshipFilter:'PARENT_OF>'}) YIELD node as taintedTree
+return taintedTree
+
 Add version information into the system...both in the source data and the lineage data
 Slides
 

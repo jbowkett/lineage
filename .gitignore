@@ -8,4 +8,5 @@ target
 neo/data/
 neo/__data/
 neo/data-2022-01-25/
+neo/data-2022-01-25-working-set/
 debezium-src/

@@ -53,8 +53,6 @@ services:
 
   neo:
     image: neo4j:4.3.3-community
-    depends_on:
-      - debezium
     ports:
       - "7474:7474"
       - "7687:7687"
