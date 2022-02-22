@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 class NeoRecordDescriptorTest {
@@ -17,6 +18,7 @@ class NeoRecordDescriptorTest {
     final var recordDescriptor = new RecordDescriptor("row-id", "tableName", parentOneDescriptor, parentTwoDescriptor);
     final var neoRecordDescriptor = NeoRecordDescriptor.from(recordDescriptor);
     assertEquals("should have the parents", 2, neoRecordDescriptor.getParents().size());
+//    fail();
   }
 
   @Test
