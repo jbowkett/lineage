@@ -1,8 +1,8 @@
-package info.bowkett.lineage.cdc.listener;
+package info.bowkett.lineage.cdc.listener.neo;
 
 import info.bowkett.lineage.cdc.listener.neo.NeoRecordDescriptor;
-import info.bowkett.lineage.cdc.listener.neo.Persistence;
-import info.bowkett.lineage.cdc.listener.neo.Repository;
+import info.bowkett.lineage.cdc.listener.neo.NeoPersistence;
+import info.bowkett.lineage.cdc.listener.neo.NeoRepository;
 import info.bowkett.lineage.model.RecordDescriptor;
 import org.junit.jupiter.api.Test;
 import org.mockito.verification.VerificationMode;
@@ -17,8 +17,8 @@ class DescriptorPersistenceTest {
 
   @Test
   void ensureItCallsTheRepositoryWithAConvertedRecordOnSave(){
-    final var repository = mock(Repository.class);
-    final var persistence = new Persistence(repository);
+    final var repository = mock(NeoRepository.class);
+    final var persistence = new NeoPersistence(repository);
     final var recordDescriptor = mock(RecordDescriptor.class);
     persistence.persist(recordDescriptor);
     verify(repository,once()).save(any(NeoRecordDescriptor.class));

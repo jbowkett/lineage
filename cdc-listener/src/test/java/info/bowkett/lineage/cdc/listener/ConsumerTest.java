@@ -1,11 +1,9 @@
 package info.bowkett.lineage.cdc.listener;
 
-import com.google.gson.Gson;
 import info.bowkett.lineage.model.RecordDescriptor;
 import org.junit.jupiter.api.Test;
 import org.mockito.verification.VerificationMode;
 
-import static info.bowkett.lineage.cdc.listener.Consumer.GSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 

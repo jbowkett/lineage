@@ -1,4 +1,4 @@
-package info.bowkett.lineage.cdc.listener;
+package info.bowkett.lineage.cdc.listener.neo;
 
 import info.bowkett.lineage.cdc.listener.neo.NeoRecordDescriptor;
 import info.bowkett.lineage.model.RecordDescriptor;
