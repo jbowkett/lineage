@@ -16,6 +16,15 @@ public class PostgresPersistence implements DescriptorPersistence {
 
   public void persist(RecordDescriptor recordDescriptor) {
     final List<PostgresRecordDescriptor> convertedRecords = PostgresRecordDescriptor.from(recordDescriptor);
-    convertedRecords.forEach(repository::save);
+    convertedRecords.forEach(prd -> {
+      final var existingRecord = this.repository.
+          findByParentRowIdAndParentTableNameAndLineageChildRowIdAndLineageChildTableName(
+              prd.getParentRowId(), prd.getParentTableName(),
+              prd.getLineageChildRowId(), prd.getLineageChildTableName()
+          );
+      if (existingRecord.isEmpty()) {
+        repository.save(prd);
+      }
+    });
   }
 }
