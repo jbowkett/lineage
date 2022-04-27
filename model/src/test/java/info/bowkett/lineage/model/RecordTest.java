@@ -39,7 +39,7 @@ class RecordTest {
   void ensureItCanHandleTwoParentRecords() {
     var parentNode = new RecordDescriptor(getRowId(), "tb_parent_table_1");
     var parentTwoNode = new RecordDescriptor(getRowId(), "tb_parent_table_2");
-    var newNode = new RecordDescriptor("tb_table_name", parentNode, parentTwoNode);
+    var newNode = new RecordDescriptor("tb_child_table_name", parentNode, parentTwoNode);
     var json = gson.toJson(newNode);
     log.info("New record with one parent [{}]", json);
     assertEquals(2, newNode.getParents().length);

@@ -1,9 +1,26 @@
 
+SQL queries for family tree:
+
+-- get parentage of a record
+with recursive child_lineage as ( select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = 'fbb992ef-fc1c-4de5-b0ad-ba0a1af22884'
+union all
+select dl2.* from child_lineage, lineage.data_lineage dl2 where child_lineage.parent_row_id = dl2.lineage_child_row_id )
+select * from child_lineage
+
+-- need to get the children of a record
+with recursive tainted_parent as (select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = 'd52beef8-f785-468e-92d0-e49a4a1e93d7'
+union all
+select dl2.* from tainted_parent, lineage.data_lineage dl2 where dl2.parent_row_id = tainted_parent.lineage_child_row_id)
+select * from tainted_parent
+
+
+
 The creation of the connectors/listeners is flaky...can be re-run and everything works okay.
 
 Next steps:
+change persistence of lineage into SQL - DONE - check neo is still working
+do a rebuild from nothing and check it's all working
 change persistence of lineage into mongo
-change persistence of lineage into SQL
 Queries required:
 How to trace the tainted records in a lineage tree (graph / doc store / SQL store)
 // get the tainted record

@@ -2,6 +2,7 @@ package info.bowkett.lineage.cdc.listener;
 
 import com.google.gson.Gson;
 import info.bowkett.lineage.model.RecordDescriptor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,16 @@ import java.util.LinkedList;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class Consumer {
 
   public static final Gson GSON = new Gson();
-  private  DescriptorPersistence persistence;
+//  private DescriptorPersistence persistence;
+  private AggregatedDescriptorPersistence persistence;
 
-  public Consumer(DescriptorPersistence persistence) {
-    this.persistence = persistence;
-  }
+//  public Consumer(DescriptorPersistence persistence) {
+//    this.persistence = persistence;
+//  }
 
   @KafkaListener(topics = {
       "lineage-server.lineage.order",

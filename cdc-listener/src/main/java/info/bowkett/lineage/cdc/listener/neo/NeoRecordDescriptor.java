@@ -1,5 +1,4 @@
 package info.bowkett.lineage.cdc.listener.neo;
-//import info.bowkett.lineage.model.RecordDescriptor;
 
 import info.bowkett.lineage.model.RecordDescriptor;
 import lombok.AllArgsConstructor;

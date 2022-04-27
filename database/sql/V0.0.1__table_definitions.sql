@@ -44,3 +44,11 @@ CREATE TABLE IF NOT EXISTS lineage.participant_type_summary(
     avg_sell_count decimal,
     avg_sell_total decimal
 );
+
+CREATE TABLE IF NOT EXISTS lineage.data_lineage(
+      row_id varchar,
+      parent_row_id varchar null,
+      parent_table_name varchar null,
+      lineage_child_row_id varchar,
+      lineage_child_table_name varchar
+);

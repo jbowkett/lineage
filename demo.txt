@@ -1,0 +1,81 @@
+Reset to a docker-compose state with new volumes, with apoc downloaded and the password changed from "neo4j" to "secret" in the console : http://localhost:7474/browser/
+
+docker-compose up
+
+./setup-connectors.sh
+
+Quick tour of the CDC listener
+
+run the cdc listener component
+
+//all nodes:
+MATCH (n) RETURN n;
+//the whole graph
+Match (n)-[r]->(m) Return n,r,m
+
+
+Quick tour of the order creation
+
+Run the order creator
+
+Show SQL in participant summary
+
+Run the participant summary
+
+Show SQL in participant_type summary
+
+Run the participant_type summary
+
+
+APOC : technician/ driver on board of the Nebuchadnezzar in the Matrix. He was killed by Cypher.
+APOC : "Awesome Procedures On Cypher"
+
+/* Get all the parents of a record - what is this record's lineage? */ << type summary row id  >>
+
+MATCH(child:RecordDescriptor{rowId:"fbccbb59-b27d-4ab5-babb-bd4571603e66"})
+CALL apoc.path.expand(child, '<PARENT_OF', null, 1,2) YIELD path as parentalLineageTree
+return parentalLineageTree
+
+-- get parentage of a record
+with recursive child_lineage as ( select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = 'fbccbb59-b27d-4ab5-babb-bd4571603e66'
+union all
+select dl2.* from child_lineage, lineage.data_lineage dl2 where child_lineage.parent_row_id = dl2.lineage_child_row_id )
+select * from child_lineage
+
+-- todo remove this group by!
+with recursive child_lineage as ( select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = 'fbccbb59-b27d-4ab5-babb-bd4571603e66'
+union all
+select dl2.* from child_lineage, lineage.data_lineage dl2 where child_lineage.parent_row_id = dl2.lineage_child_row_id )
+select max(row_id), parent_row_id, parent_table_name, lineage_child_row_id , lineage_child_table_name from child_lineage
+group by parent_row_id, parent_table_name, lineage_child_row_id , lineage_child_table_name
+order by lineage_child_table_name, parent_table_name, parent_row_id
+
+
+
+
+Get all the children of a tainted record:
+----------------------------------------
+
+/* Get an order cluster */  << order row id >>
+match(order:RecordDescriptor {rowId : "13a3d666-0e58-46a1-b7cb-b5487a1fad3a"})-[*1..4]-(parents) return order, parents
+
+/* get just the tainted record */ << order row id >>
+MATCH(tainted:RecordDescriptor{rowId:"13a3d666-0e58-46a1-b7cb-b5487a1fad3a"}) Return tainted
+
+/* Get all those records poisoned by a bad order */ << order row id >>
+MATCH(tainted:RecordDescriptor{rowId:"13a3d666-0e58-46a1-b7cb-b5487a1fad3a"})
+CALL apoc.path.subgraphNodes(tainted, {maxLevel:-1, relationshipFilter:'PARENT_OF>'}) YIELD node as taintedTree
+return taintedTree
+
+with recursive tainted_parent as (select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = '13a3d666-0e58-46a1-b7cb-b5487a1fad3a'
+union all
+select dl2.* from tainted_parent, lineage.data_lineage dl2 where dl2.parent_row_id = tainted_parent.lineage_child_row_id)
+select * from tainted_parent
+
+-- todo remove this group by!
+with recursive tainted_parent as (select dl.* from lineage.data_lineage dl where dl.lineage_child_row_id = '13a3d666-0e58-46a1-b7cb-b5487a1fad3a'
+union all
+select dl2.* from tainted_parent, lineage.data_lineage dl2 where dl2.parent_row_id = tainted_parent.lineage_child_row_id)
+select max(row_id), parent_row_id, parent_table_name, lineage_child_row_id , lineage_child_table_name from tainted_parent
+group by parent_row_id, parent_table_name, lineage_child_row_id , lineage_child_table_name
+order by lineage_child_table_name, parent_table_name, parent_row_id

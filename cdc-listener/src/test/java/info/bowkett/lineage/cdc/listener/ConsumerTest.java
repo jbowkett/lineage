@@ -293,14 +293,14 @@ public class ConsumerTest {
 
   @Test
   void ensureItCanParseAValidMessage(){
-    final var consumer = new Consumer(mock(DescriptorPersistence.class));
+    final var consumer = new Consumer(mock(AggregatedDescriptorPersistence.class));
     final var parsedLineage = consumer.parseLineage(HAPPY_PATH_MSG);
     assertEquals("{\"rowId\":\"0ff624a0-66e4-4018-839f-3c758521ac8a\",\"tableName\":\"order\",\"parents\":[]}", parsedLineage);
   }
 
   @Test
   void ensureItCanTranslateAValidMessage(){
-    final var consumer = new Consumer(mock(DescriptorPersistence.class));
+    final var consumer = new Consumer(mock(AggregatedDescriptorPersistence.class));
     final var expected = new RecordDescriptor("0ff624a0-66e4-4018-839f-3c758521ac8a", "order");
     var result = consumer.consume(HAPPY_PATH_MSG);
     assertEquals(expected, result);
@@ -308,7 +308,7 @@ public class ConsumerTest {
 
   @Test
   void ensureItWillPersistAValidMessage(){
-    final DescriptorPersistence persistence = mock(DescriptorPersistence.class);
+    final var persistence = mock(AggregatedDescriptorPersistence.class);
     final var consumer = new Consumer(persistence);
     var result = consumer.consume(HAPPY_PATH_MSG);
     verify(persistence, once()).persist(result);
