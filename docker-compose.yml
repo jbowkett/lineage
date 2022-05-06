@@ -59,4 +59,5 @@ services:
     env_file:
       - neo/neo.env
     volumes:
-      - ./neo/data:/data
+      - ./neo/data:/data:rw
+#      - ./neo/plugins:/var/lib/neo4j/plugins
