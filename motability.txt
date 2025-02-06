@@ -1,0 +1,69 @@
+
+Modern data approaches level-set
+ - Data warehouse
+ - Data Lakes
+ - Data Lakehouse
+ - Data Mesh
+
+If you're starting today, what would a data-centric architecture and team shape look like?
+ - Organisational patterns
+ - What does good look like? Microservices + mesh + centralised store? + catalogue
+
+Key guiding principles:
+ - Always optimise your data for its access paths
+ - This will usually fall into your domain usage (if your domain boundaries are unclear or no longer working for you, consider revising them)
+ - Empower your teams for fast flow - the team is the unit, co-locate everyone needed in a team for all kinds of feature development (reports, service changes etc.)
+ - Technology is an enabler, the real challenge is the human change
+ - Don't about "doing it right": collect metrics and use empirical data to best judge (usage stats, MTTM, MTTR)
+
+
+Microservices/mesh tech approach questions:
+===========================================
+* Our applications are typically built with using a microservice based architecture – how do we approach data products / data insights in a microservice world, especially as domains are implemented by multiple microservice (and each microservice has their own database).  Microservices make analytics harder?
+* How to unlock data in microservices for use in analytics?
+* What are the different patterns / types of data contracts between the operational layer (apps and microservices) and the analytics layer?
+* What are the different patterns / technology options for moving data from operational layer (apps and microservices) into analytics layer?
+* Should all the data held in apps and microservices be, by default, freely available to explore in a lake or should they be locked down by default?
+* What is the criteria for data to be moved into the DWH, especially when a hand written local report is already running (and is good enough)?
+* Exposing data via SQL v other types of API (non SQL based) – what are the pros and cons, and different use cases?
+* Should the “master” data always be used as a source by default?  Our microservices / domains often have copies of master data. What are other companies doing about masters of data and copies of that data for different domains?
+* Should we look to stream data into the data lake by default?  Are batch loads ok for some use cases?
+* Are data products typically built for BI, or other types of consumers (or both)?
+* What are the characteristics in operational and analytical data management in data driven organisations?
+* How to initialise the data insights/analytics store with historic data?  e.g. where events don't exist
+
+
+Specific tech questions:
+========================
+* Confluent would typically suggest using events (and Kafka) as the source of truth – is this practical or pragmatic?
+* What are Open Credo’s thoughts on CDC approaches for data integration e.g. the outbox pattern
+* Methods for moving IoT data into data lake?
+* Best practices for IoT Architecture?
+
+
+Organisational questions:
+=========================
+* How would you define a “data contract”?   What should a data contract cover?
+* How to guarantee data quality?
+* How do guarantee data timeliness?  What could the SLAs look like?
+* How to reconcile data that is used for analytics / insights with source e.g. a microservice
+* What does it mean for companies to be “data driven”?   What are some of the characteristics of a data driven company, and what are the practicalities?
+* How do companies establish Data Governance?
+* We currently have a central MI team (plus some business MI). Other companies are moving towards a decentralised model as Product Teams are more widely implemented. I would like to understand what is driving this trend and whether this goes hand in hand with Data as a Product. The pros & cons of this approach would be useful
+* Are data products the responsibility of the “apps” team or the “data” team?
+* What is the difference between a Product Owner and a Data Product Owner?  Do they typically have different priorities, or similar?
+* What are the different types of data products?  Who owns each type?  What is the purpose of each type?
+* Is it ok for respective app teams to product hand written reports produced from event with no/minimal data governance, event and data catalog, data lineage, etc.?
+* How to make app teams more data driven, and think of the wider data landscape?   What data related artefacts should they be responsible for (as they are the producers of the data)?
+* Future business requirements for insights / analytics hard to predict - what architecture(s) work well for supporting emerging requirements quickly?
+* How to manage and propagate data fixes (caused by bugs) to the analytics/insights data store
+* How to test?  How much testing should we do outside of production?  How many test environments do you think we need?
+
+
+Data Lake (house) Vs. Data Mesh:
+================================
+* Is a “data mesh” the only option?
+* Does there have to be a “one size fits all”?
+* What is your take on a “lake house”?
+* How do you best get data into the “lake house”?  Incremental and/or daily refreshes?
+* Would like to understand what the design & implementation differences between a lake & mesh and the implications of choosing one over the other. Can you have part data lake, part data mesh at the same time??
